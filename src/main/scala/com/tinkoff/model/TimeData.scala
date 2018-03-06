@@ -25,7 +25,7 @@ case class TimeData(
 
   def toTimeData(json: String): Option[TimeData] = {
     if (json.isEmpty) {
-      logger.info("json is empty")
+      logger.warn("json is empty")
       return None
     }
 

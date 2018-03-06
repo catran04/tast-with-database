@@ -1,8 +1,9 @@
 package com.tinkoff.rest
 
 
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server
-import akka.http.scaladsl.server.Directives
+import akka.http.scaladsl.server.{Directives, StandardRoute}
 
 /**
   * Created by Administrator on 3/6/2018.
@@ -30,7 +31,11 @@ class RestRoute extends Directives {
       } ~
         path("data.getData") {
           get {
-            complete("")
+            val response = service.validateAndRespond("")(token, someFixId)
+            response.errorMessage match {
+              case None => processSuccess(response.toString, s"getting the values of attribute: '${someFixId}'")
+              case Some(msg) => processFailure(response.toString, response.responseCode)
+            }
           }
         } ~
         path("data.getBackData") {
@@ -45,6 +50,16 @@ class RestRoute extends Directives {
         }
     }
   }
+
+  private def processSuccess(responseAsJson: String): StandardRoute = {
+    complete(StatusCodes.OK, responseAsJson)
+  }
+
+  private def processFailure(responseAsJson: String, responseCode: Int): StandardRoute = {
+    responseCode match {
+      case StatusCodes.NotFound.intValue => complete(StatusCodes.NotFound.intValue, responseAsJson)
+      case _                             => complete(StatusCodes.InternalServerError.intValue, responseAsJson)
+    }
 }
 
 object RestRoute {
