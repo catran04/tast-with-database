@@ -1,61 +1,33 @@
 package com.tinkoff.data
 
-import java.sql.SQLException
-
-import akka.http.scaladsl.model.StatusCodes
-import com.tinkoff.model.{Response, TimeData}
-import com.tinkoff.options.ApplicationContext
+import com.tinkoff.model.TimeData
 import org.apache.log4j.Logger
+import org.joda.time.DateTime
+
+import scala.collection.mutable
+import scala.util.Random
 
 /**
   * Created by Administrator on 3/6/2018.
   */
-class DataBuilder(appContext: ApplicationContext) {
-  val logger = Logger.getLogger(getClass)
-  val storage = appContext.storage
+object DataBuilder {
 
-  def getBackData: Response = {
-    try {
-      val backData = storage.getBackTimeData()
-      if(backData.isEmpty){
-        logger.error("BackData was not found")
-        return respondFailure(StatusCodes.NotFound.intValue, "BackData was not found")
+  private val random = Random
+  private val dateTime = new DateTime()
+  private val logger = Logger.getLogger(getClass)
+
+  def apply(lenght: Int): List[TimeData] = {
+    var listData: mutable.MutableList[TimeData] = mutable.MutableList[TimeData]()
+    for(i <- 0 until lenght) {
+      if(i % 3 == 0) {
+        val timeData = TimeData(id = i,timestamp = dateTime.toString(), backTime = true)
+        listData += timeData
+      } else {
+        val timeData = TimeData(id = i, timestamp = dateTime.toString(), backTime = false)
+        listData += timeData
       }
-      respondSuccess(backData)
-    } catch {
-      case sqlExc: SQLException =>
-        logger.error(sqlExc.printStackTrace())
-        respondFailure(StatusCodes.InternalServerError.intValue, "Internal server error. We are already doing our best. Please try again later.")
-      case exc: Exception =>
-        logger.error(exc.printStackTrace())
-        respondFailure(StatusCodes.InternalServerError.intValue, "internal server error. We are already doing our best. Please try again later.")
     }
+    logger.info(s"data was generated. Size = ${lenght}")
+    listData.sortBy(data => data.id).toList
   }
-
-  def getAllData: Response = {
-    try {
-      val allData = storage.getAllTimeData()
-      if(allData.isEmpty){
-        logger.error("Data was not found")
-        return respondFailure(StatusCodes.NotFound.intValue, "Data was not found")
-      }
-      respondSuccess(allData)
-    } catch {
-      case sqlExc: SQLException =>
-        logger.error(sqlExc.printStackTrace())
-        respondFailure(StatusCodes.InternalServerError.intValue, "Internal server error. We are already doing our best. Please try again later.")
-      case exc: Exception =>
-        logger.error(exc.printStackTrace())
-        respondFailure(StatusCodes.InternalServerError.intValue, "internal server error. We are already doing our best. Please try again later.")
-    }
-  }
-
-  private def respondFailure(responseCode: Int, errorMessage: String): Response = {
-    Response(responseCode = responseCode, errorMessage = Some(errorMessage))
-  }
-
-  private def respondSuccess(data: List[TimeData]): Response = {
-    Response(data = Some(data))
-  }
-
 }

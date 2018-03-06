@@ -1,5 +1,6 @@
-package com.tinkoff.database.dao
+package com.tinkoff.database.dao.sql
 
+import com.tinkoff.database.dao.Dao
 import com.tinkoff.model.TimeData
 
 /**
@@ -15,4 +16,8 @@ class MySqlDao extends Dao{
   override def getBackTimeData(): List[TimeData] = ???
 
   override def deleteTimeData(): Unit = ???
+}
+
+object MySqlDao {
+  def apply(): MySqlDao = new MySqlDao()
 }

@@ -1,15 +1,13 @@
 package com.tinkoff.rest
 
-import java.sql.DriverManager
-
-import com.tinkoff.options.{ApplicationContext, ApplicationOptions}
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.directives.HeaderDirectives
 import akka.stream.ActorMaterializer
+import com.tinkoff.options.{ApplicationContext, ApplicationOptions}
+import org.apache.log4j.Logger
 import org.joda.time.DateTimeZone
 import org.json4s.{NoTypeHints, native}
-import org.apache.log4j.Logger
 
 
 /**
@@ -36,7 +34,7 @@ class ScalaRestBind (applicationContext: ApplicationContext) extends HeaderDirec
     implicit val executionContext = system.dispatcher // needed for the future flatMap/onComplete in the end
     implicit val formats = native.Serialization.formats(NoTypeHints)
 
-    val route = RestRoute()
+    val route = RestRoute(applicationContext)
 
       val host = options.rest.host
       val port = options.rest.port
