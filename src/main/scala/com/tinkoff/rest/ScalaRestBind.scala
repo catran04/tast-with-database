@@ -2,7 +2,7 @@ package com.tinkoff.rest
 
 import java.sql.DriverManager
 
-import com.tinkoff.options.ApplicationContext
+import com.tinkoff.options.{ApplicationContext, ApplicationOptions}
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.directives.HeaderDirectives
@@ -20,15 +20,15 @@ class ScalaRestBind (applicationContext: ApplicationContext) extends HeaderDirec
   private val logger: Logger = Logger.getLogger(getClass)
 
 
-  def launch(args: Array[String]): Unit = {
+  def launch(): Unit = {
 
     DateTimeZone.setDefault(DateTimeZone.UTC)
-    println(s"Parsing input arguments: '${args.mkString(" ")}'")
 
-    logger.debug(s"Options applied: '${_options}'")
-    logger.info(s"Running Scala application... ${_options.app_name()}...")
+    val options = applicationContext.options
 
-    logger.info(ConfigClient.source)
+    logger.debug(s"Options applied: '${options}'")
+//    logger.info(s"Running Scala application... ${options.rest.app_name()}...")
+
     logger.info("Job started")
 
     implicit val system: ActorSystem = ActorSystem("system")
@@ -36,37 +36,29 @@ class ScalaRestBind (applicationContext: ApplicationContext) extends HeaderDirec
     implicit val executionContext = system.dispatcher // needed for the future flatMap/onComplete in the end
     implicit val formats = native.Serialization.formats(NoTypeHints)
 
-    val route = RestRoute(applicationContext)
+    val route = RestRoute()
 
-    val listenAddresses = _options.rest.listen_addresses()
-    logger.info(s"Listen addresses: $listenAddresses")
+      val host = options.rest.host
+      val port = options.rest.port
 
-    val defaultPort = _options.rest.port()
-
-    for (host <- listenAddresses.split(",")) {
-      var tempHost = host.trim
-      var tempPort = defaultPort
-      if (host.contains(":")) {
-        val hostAndPort = host.split(":")
-        tempHost = hostAndPort.head
-        tempPort = hostAndPort(1).toInt
-      }
-      val serverBinding = Http().bindAndHandle(route.route, tempHost, tempPort) // TODO: include support https
-      logger.info(s"Rule REST server is now listening on http://$tempHost:$tempPort/...")
-    }
+      Http().bindAndHandle(route.route, host, port)
+      logger.info(s"Rule REST server is now listening on http://$host:$port/...")
   }
 }
 
 object ScalaRestBind {
 
   def main(args: Array[String]): Unit = {
+    println(s"Parsing input arguments: '${args.mkString(" ")}'")
     val applicationOptions = ApplicationOptions(args)
 
-    val app = new ScalaRestBind(AppContextForRest.applicationContext(applicationOptions))
-    app.launch(args)
+    val applicationContext = ApplicationContext(applicationOptions)
+
+    val app = new ScalaRestBind(applicationContext)
+    app.launch()
   }
 
-  def testLaunch(args: Array[String]): Unit = {
-    new ScalaRestBind(AppContextForRest.testApplicationContext).launch(args)
-  }
+//  def testLaunch(args: Array[String]): Unit = {
+//    new ScalaRestBind(AppContextForRest.testApplicationContext).launch(args)
+//  }
 }
