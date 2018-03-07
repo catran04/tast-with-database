@@ -33,8 +33,10 @@ object MySqlConnector {
     val username = options.username
     val password = options.password
 
-      Class.forName(driver)
-      DriverManager.getConnection(url, username, password)
+    Class.forName(driver)
+    val connection = DriverManager.getConnection(url, username, password)
+    logger.info(s"connection to database ${databaseName} was success")
+    connection
   }
 
   private def createTable(statement: Statement): Unit = {

@@ -1,12 +1,17 @@
 package com.tinkoff.database.dao.sql
 
 import com.tinkoff.database.dao.Dao
+import com.tinkoff.database.sql.MySqlConnector
 import com.tinkoff.model.TimeData
+import com.tinkoff.options.ApplicationOptions
 
 /**
   * Created by Administrator on 3/6/2018.
   */
-class MySqlDao extends Dao{
+class MySqlDao(appOptions: ApplicationOptions) extends Dao{
+
+  private val connection = MySqlConnector.getConnection(appOptions.mysql)
+
   override def addTimeData(elem: TimeData): Unit = ???
 
   override def addTimeDatas(listElem: List[TimeData]): Unit = ???
@@ -19,5 +24,5 @@ class MySqlDao extends Dao{
 }
 
 object MySqlDao {
-  def apply(): MySqlDao = new MySqlDao()
+  def apply(appOptions: ApplicationOptions): MySqlDao = new MySqlDao(appOptions)
 }
