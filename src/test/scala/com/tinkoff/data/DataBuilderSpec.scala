@@ -17,7 +17,6 @@ class DataBuilderSpec extends FlatSpec with GivenWhenThen with Matchers{
   "each elem of the list of data" should "have unique id" in {
     Given("list of data")
     val listOfData = databuilder(1000)
-    val a = listOfData += TimeData(id = 3, timestamp = "", backTime = false)
 
     When("list of duplicate ids")
     val listDuplicates = listOfData.map(elem => elem.id).groupBy(identity).collect { case (x, List(_, _, _*)) => x }
