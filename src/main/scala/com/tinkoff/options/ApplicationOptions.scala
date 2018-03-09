@@ -4,7 +4,7 @@ package com.tinkoff.options
   * Created by Administrator on 3/6/2018.
   */
 case class ApplicationOptions(
-                               storage: String = "MySql",
+                               storage: String = "mock",
                                dataLength: Int = 10000,
                                rest: RestOptions = RestOptions(),
                                mysql: MysqlOptions = MysqlOptions(),
