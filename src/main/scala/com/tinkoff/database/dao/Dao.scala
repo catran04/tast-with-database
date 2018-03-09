@@ -7,8 +7,7 @@ import com.tinkoff.model.TimeData
   */
 trait Dao {
 
-  def addTimeData(elem: TimeData): Unit
-  def addTimeDatas(listElem: List[TimeData]): Unit
+  def addTimeData(length: Int): Unit
   def getAllTimeData(): List[TimeData]
   def getBackTimeData(): List[TimeData]
   def deleteTimeData(): Unit

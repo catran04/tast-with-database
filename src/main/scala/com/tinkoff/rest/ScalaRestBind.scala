@@ -4,6 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.directives.HeaderDirectives
 import akka.stream.ActorMaterializer
+import com.tinkoff.database.DBUtil
 import com.tinkoff.options.{ApplicationContext, ApplicationOptions}
 import org.apache.log4j.Logger
 import org.joda.time.DateTimeZone
@@ -49,8 +50,13 @@ object ScalaRestBind {
   def main(args: Array[String]): Unit = {
     println(s"Parsing input arguments: '${args.mkString(" ")}'")
     val applicationOptions = ApplicationOptions(args)
+    println(s"options ${applicationOptions}")
+    val storage = DBUtil(applicationOptions)
 
-    val applicationContext = ApplicationContext(applicationOptions)
+    val applicationContext = ApplicationContext(
+      options = applicationOptions,
+      storage = storage
+      )
 
     val app = new ScalaRestBind(applicationContext)
     app.launch()

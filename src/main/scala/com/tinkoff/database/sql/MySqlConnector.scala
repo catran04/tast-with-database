@@ -29,6 +29,7 @@ object MySqlConnector {
     val url = s"jdbc:mysql://${host}:${port}/${databaseName}" +
       s"?autoReconnect=${autoReconnect}&useSSL=${useSSL}&useJDBCCompliantTimezoneShift=${useJDBCCompliantTimezoneShift}" +
       s"&useLegacyDatetimeCode=${useLegacyDatetimeCode}&serverTimezone=${serverTimezone}"
+    println(s"url ${url}")
 
     val username = options.username
     val password = options.password
@@ -38,14 +39,4 @@ object MySqlConnector {
     logger.info(s"connection to database ${databaseName} was success")
     connection
   }
-
-  private def createTable(statement: Statement): Unit = {
-    statement.execute("CREATE TABLE timeData(" +
-      "id INTEGER PRIMARY KEY," +
-      "timestamp TEXT," +
-      "backField BOOLEAN" +
-      ");")
-    logger.info("the table 'timeData was created")
-  }
-
 }

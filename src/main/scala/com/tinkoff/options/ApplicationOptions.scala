@@ -4,22 +4,25 @@ package com.tinkoff.options
   * Created by Administrator on 3/6/2018.
   */
 case class ApplicationOptions(
-                             rest: RestOptions = RestOptions(),
-                             mysql: MysqlOptions = MysqlOptions(),
-                             redis: RedisOptions = RedisOptions()
+                               storage: String = "MySql",
+                               rest: RestOptions = RestOptions(),
+                               mysql: MysqlOptions = MysqlOptions(),
+                               redis: RedisOptions = RedisOptions()
                              ) {
 }
 
 object ApplicationOptions {
-  val defaults = ApplicationOptions(Array.empty[String])
+  val defaults = new ApplicationOptions()
 
   /**
     * Initialize options with given arguments
     */
   def apply(args: Array[String]): ApplicationOptions = {
+    println(s"args ${args.mkString(", ")}")
     if(args.isEmpty) return ApplicationOptions.defaults
     args.foldLeft(ApplicationOptions()) { (options, arg) =>
       arg.split("=") match {
+        case Array("storage", value) => options.copy(storage = value)
         case Array("rest.host", value) => options.copy(rest = options.rest.copy(host = value))
         case Array("rest.port", value) => options.copy(rest = options.rest.copy(port = value.toInt))
 
@@ -50,7 +53,7 @@ case class RestOptions(
 
 case class MysqlOptions(
                        host: String = "localhost",
-                       port: Int = 4032,
+                       port: Int = 3306,
                        databaseName: String = "tinkoff",
                        autoReconnect: Boolean = true,
                        useSSL: Boolean = false,
