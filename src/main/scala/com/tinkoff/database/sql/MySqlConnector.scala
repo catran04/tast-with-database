@@ -1,19 +1,19 @@
 package com.tinkoff.database.sql
 
-import java.sql.{Connection, DriverManager, Statement}
+import java.sql.{Connection, DriverManager}
 
-import com.tinkoff.options.MysqlOptions
+import com.tinkoff.options.ApplicationOptions
 import org.apache.log4j.Logger
 
 /**
   * Created by Administrator on 3/5/2018.
   */
-object MySqlConnector {
+object MySqlConnector extends SqlConnector {
 
   private val logger = Logger.getLogger(getClass)
 
-  def getConnection(options: MysqlOptions): Connection = {
-
+  override def getConnection(appOpt: ApplicationOptions): Connection = {
+    val options = appOpt.mysql
     val driver = options.driver
 
     val host = options.host

@@ -21,6 +21,7 @@ class DataHandler(appContext: ApplicationContext) {
         logger.error("BackData was not found")
         return respondFailure(StatusCodes.NotFound.intValue, "BackData was not found")
       }
+      logger.info(s"getting data. Length = ${backData.length}")
       respondSuccess(backData)
     } catch {
       case sqlExc: SQLException =>
@@ -39,6 +40,7 @@ class DataHandler(appContext: ApplicationContext) {
         logger.error("Data was not found")
         return respondFailure(StatusCodes.NotFound.intValue, "Data was not found")
       }
+      logger.info(s"getting data. Length = ${allData.length}")
       respondSuccess(allData)
     } catch {
       case sqlExc: SQLException =>

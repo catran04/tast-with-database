@@ -5,6 +5,7 @@ package com.tinkoff.options
   */
 case class ApplicationOptions(
                                storage: String = "MySql",
+                               dataLength: Int = 10000,
                                rest: RestOptions = RestOptions(),
                                mysql: MysqlOptions = MysqlOptions(),
                                redis: RedisOptions = RedisOptions()
@@ -62,7 +63,7 @@ case class MysqlOptions(
                        serverTimezone: String = "UTC",
                        driver: String = "com.mysql.cj.jdbc.Driver",
                        username: String = "root",
-                       password: String = ""
+                       password: String = "CrisBad33"
                        ){}
 
 case class RedisOptions (

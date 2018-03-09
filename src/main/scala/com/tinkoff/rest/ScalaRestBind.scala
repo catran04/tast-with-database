@@ -2,19 +2,17 @@ package com.tinkoff.rest
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.server.directives.HeaderDirectives
 import akka.stream.ActorMaterializer
 import com.tinkoff.database.DBUtil
 import com.tinkoff.options.{ApplicationContext, ApplicationOptions}
 import org.apache.log4j.Logger
 import org.joda.time.DateTimeZone
-import org.json4s.{NoTypeHints, native}
 
 
 /**
   * Created by Administrator on 3/5/2018.
   */
-class ScalaRestBind (applicationContext: ApplicationContext) extends HeaderDirectives{
+class ScalaRestBind (applicationContext: ApplicationContext){
 
   private val logger: Logger = Logger.getLogger(getClass)
 
@@ -26,14 +24,10 @@ class ScalaRestBind (applicationContext: ApplicationContext) extends HeaderDirec
     val options = applicationContext.options
 
     logger.debug(s"Options applied: '${options}'")
-//    logger.info(s"Running Scala application... ${options.rest.app_name()}...")
-
-    logger.info("Job started")
 
     implicit val system: ActorSystem = ActorSystem("system")
     implicit val materializer = ActorMaterializer()
     implicit val executionContext = system.dispatcher // needed for the future flatMap/onComplete in the end
-    implicit val formats = native.Serialization.formats(NoTypeHints)
 
     val route = RestRoute(applicationContext)
 
@@ -52,6 +46,8 @@ object ScalaRestBind {
     val applicationOptions = ApplicationOptions(args)
     println(s"options ${applicationOptions}")
     val storage = DBUtil(applicationOptions)
+    println(s"storage ${storage}")
+    storage.addTimeData(10000)
 
     val applicationContext = ApplicationContext(
       options = applicationOptions,

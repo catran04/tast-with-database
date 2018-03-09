@@ -1,7 +1,8 @@
 package com.tinkoff.database
 
 import com.tinkoff.database.dao.Dao
-import com.tinkoff.database.dao.sql.MySqlDao
+import com.tinkoff.database.dao.sql.SqlDao
+import com.tinkoff.database.sql.MySqlConnector
 import com.tinkoff.options.ApplicationOptions
 
 /**
@@ -10,8 +11,8 @@ import com.tinkoff.options.ApplicationOptions
 object DBUtil {
   def apply(options: ApplicationOptions): Dao = {
     options.storage match {
-      case "MySql" => MySqlDao(options.mysql)
-      case "mock" => DaoMock()
+      case "MySql" => SqlDao(options, MySqlConnector)
+      case "mock" => DaoMock(options.dataLength)
       case otherString => throw new IllegalArgumentException(s"using userStorage ${otherString} is impossible")
     }
   }

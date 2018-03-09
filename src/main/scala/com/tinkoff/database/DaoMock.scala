@@ -8,13 +8,14 @@ import org.apache.log4j.Logger
 /**
   * Created by Administrator on 3/6/2018.
   */
-class DaoMock extends Dao {
+class DaoMock(dataLength: Int) extends Dao {
 
   private val logger = Logger.getLogger(getClass)
   private var timeData: List[TimeData] = _
+  addTimeData(dataLength)
 
   override def addTimeData(length: Int): Unit = {
-    DataBuilder(length)
+    timeData = DataBuilder(length)
     logger.info(s"adding timeData. Length = ${length}")
   }
 
@@ -34,5 +35,5 @@ class DaoMock extends Dao {
 }
 
 object DaoMock {
-  def apply(): DaoMock = new DaoMock()
+  def apply(dataLength: Int): DaoMock = new DaoMock(dataLength)
 }
