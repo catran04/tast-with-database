@@ -6,7 +6,7 @@ import com.tinkoff.database.sql.MySqlConnector
 import com.tinkoff.options.ApplicationOptions
 
 /**
-  * Created by Administrator on 3/9/2018.
+  * this method is receiving option and returns the implementation of Dao
   */
 object DBUtil {
   def apply(options: ApplicationOptions): Dao = {

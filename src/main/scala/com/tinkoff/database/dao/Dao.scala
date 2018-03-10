@@ -3,7 +3,7 @@ package com.tinkoff.database.dao
 import com.tinkoff.model.TimeData
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * defines the different methods for the some implementations
   */
 trait Dao {
 

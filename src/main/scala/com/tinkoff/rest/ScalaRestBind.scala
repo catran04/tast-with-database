@@ -10,13 +10,16 @@ import org.joda.time.DateTimeZone
 
 
 /**
-  * Created by Administrator on 3/5/2018.
+  * the start point of application.
   */
 class ScalaRestBind (applicationContext: ApplicationContext){
 
   private val logger: Logger = Logger.getLogger(getClass)
 
 
+  /**
+    * creates the connection to database, adds data, and launch REST server
+    */
   def launch(): Unit = {
 
     DateTimeZone.setDefault(DateTimeZone.UTC)

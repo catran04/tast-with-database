@@ -4,7 +4,7 @@ import org.json4s.{NoTypeHints, native}
 import org.json4s.native.Serialization.write
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * response for REST API
   */
 case class Response(
                    responseCode: Int = 0,

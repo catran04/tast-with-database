@@ -5,13 +5,15 @@ import java.sql.{Connection, DriverManager}
 import com.tinkoff.options.ApplicationOptions
 import org.apache.log4j.Logger
 
-/**
-  * Created by Administrator on 3/5/2018.
-  */
 object MySqlConnector extends SqlConnector {
 
   private val logger = Logger.getLogger(getClass)
 
+  /**
+    * creates the connection to a MySQL server
+    * @param appOpt: ApplicationOptions - the options for a handling of connection
+    * @return Connection - the connection to the MySQL server
+    */
   override def getConnection(appOpt: ApplicationOptions): Connection = {
     val options = appOpt.mysql
     val driver = options.driver

@@ -6,7 +6,7 @@ import com.tinkoff.model.TimeData
 import org.apache.log4j.Logger
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * Using for the tests or mock using
   */
 class DaoMock(dataLength: Int) extends Dao {
 

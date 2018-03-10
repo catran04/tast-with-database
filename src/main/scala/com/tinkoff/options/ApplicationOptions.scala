@@ -1,7 +1,7 @@
 package com.tinkoff.options
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * using for application the different options
   */
 case class ApplicationOptions(
                                storage: String = "mock",
@@ -23,7 +23,9 @@ object ApplicationOptions {
     if(args.isEmpty) return ApplicationOptions.defaults
     args.foldLeft(ApplicationOptions()) { (options, arg) =>
       arg.split("=") match {
+        case Array("dataLength", value) => options.copy(dataLength = value.toInt)
         case Array("storage", value) => options.copy(storage = value)
+
         case Array("rest.host", value) => options.copy(rest = options.rest.copy(host = value))
         case Array("rest.port", value) => options.copy(rest = options.rest.copy(port = value.toInt))
 

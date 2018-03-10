@@ -8,7 +8,7 @@ import com.tinkoff.model.TimeData
 import com.tinkoff.options.{ApplicationOptions, MysqlOptions}
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * it is using for the handling of data from sql storage
   */
 class SqlDao(appOptions: ApplicationOptions, sqlConnector: SqlConnector) extends Dao{
 

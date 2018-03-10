@@ -5,7 +5,7 @@ import java.sql.Connection
 import com.tinkoff.options.ApplicationOptions
 
 /**
-  * Created by Administrator on 3/9/2018.
+  * defines the connection to the MySQL server
   */
 trait SqlConnector {
 

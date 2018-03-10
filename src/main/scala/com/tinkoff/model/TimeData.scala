@@ -7,7 +7,7 @@ import org.json4s.native.Serialization.{write, read}
 import scala.util.{Failure, Success, Try}
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * case class for creating data
   */
 case class TimeData(
                      id: Int,

@@ -8,7 +8,7 @@ import com.tinkoff.data.DataHandler
 import com.tinkoff.options.ApplicationContext
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * Routing for REST API
   */
 class RestRoute(appContext: ApplicationContext) extends Directives {
 

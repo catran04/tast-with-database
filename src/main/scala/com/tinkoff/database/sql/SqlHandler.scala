@@ -10,7 +10,7 @@ import org.apache.log4j.Logger
 import scala.collection.mutable
 
 /**
-  * Created by Administrator on 3/8/2018.
+  * contains some command for sql
   */
 class SqlHandler(cn: Connection, options: ApplicationOptions) {
 
@@ -19,12 +19,17 @@ class SqlHandler(cn: Connection, options: ApplicationOptions) {
   private val logger = Logger.getLogger(getClass)
   private val statement = cn.createStatement()
 
-
+  /**
+    * the method for using concrete database.
+    */
   def useDB(): Unit = {
     statement.execute(s"USE ${options.mysql.databaseName};")
     logger.info(s"database ${options.mysql.databaseName} is used")
   }
 
+  /**
+    * creates the table with name that defines in options
+    */
   def createTable(): Unit = {
     statement.execute("CREATE TABLE IF NOT EXISTS timeData(" +
       "id INTEGER PRIMARY KEY," +
@@ -34,6 +39,10 @@ class SqlHandler(cn: Connection, options: ApplicationOptions) {
     logger.info("the table 'timeData was created")
   }
 
+  /**
+    * creates list of TimeData and adds to the sql storage
+    * @param length: Int - length of list of TimeData
+    */
   def addTimeData(length: Int): Unit = {
     val data = DataBuilder(length)
     val ps = cn.prepareStatement(s"INSERT IGNORE INTO timedata (id, timestamp, backField) VALUES (?, ?, ?);")
@@ -47,6 +56,9 @@ class SqlHandler(cn: Connection, options: ApplicationOptions) {
     cn.setAutoCommit(true)
   }
 
+  /**
+    * @return from the sql storage all list of timeData
+    */
   def getAllTimeData(): List[TimeData] = {
     val rs: ResultSet = statement.executeQuery("SELECT * FROM timeData ORDER BY id;")
     var timeDatas: mutable.MutableList[TimeData] = mutable.MutableList[TimeData]()
@@ -57,6 +69,9 @@ class SqlHandler(cn: Connection, options: ApplicationOptions) {
     timeDatas.toList
   }
 
+  /**
+    * @return from the sql storage only back time data
+    */
   def getBackTimeData(): List[TimeData] = {
     val rs = statement.executeQuery("SELECT * FROM timedata WHERE backField = true ORDER BY id;")
     var backTimeDatas: mutable.MutableList[TimeData] = mutable.MutableList[TimeData]()

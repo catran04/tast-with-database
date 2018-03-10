@@ -8,12 +8,15 @@ import com.tinkoff.options.ApplicationContext
 import org.apache.log4j.Logger
 
 /**
-  * Created by Administrator on 3/6/2018.
+  * it is using for the different operation of data
   */
 class DataHandler(appContext: ApplicationContext) {
-  val logger = Logger.getLogger(getClass)
-  val storage = appContext.storage
+  private val logger = Logger.getLogger(getClass)
+  private val storage = appContext.storage
 
+  /**
+    * @return response that consist of responseCode and the filtered TimeData or errorMessage
+    */
   def getBackData: Response = {
     try {
       val backData = storage.getBackTimeData()
@@ -33,6 +36,10 @@ class DataHandler(appContext: ApplicationContext) {
     }
   }
 
+  /**
+    *
+    * @return response that consist of response code and all TimeData or errorMessage
+    */
   def getAllData: Response = {
     try {
       val allData = storage.getAllTimeData()
