@@ -1,16 +1,12 @@
 package com.tinkoff.data
 
-import com.tinkoff.model.TimeData
 import org.scalatest.{FlatSpec, GivenWhenThen, Matchers}
 
-/**
-  * Created by Administrator on 3/6/2018.
-  */
 class DataBuilderSpec extends FlatSpec with GivenWhenThen with Matchers{
 
   val databuilder = DataBuilder
 
-  "databuilder" should "return list with lenght = 100" in {
+  "databuilder" should "return list with length = 100" in {
     databuilder(100).length shouldEqual 100
   }
 
@@ -23,7 +19,10 @@ class DataBuilderSpec extends FlatSpec with GivenWhenThen with Matchers{
 
     Then("list of duplicate ids should be empty")
     listDuplicates shouldBe empty
+  }
 
+  "databuilder" should "throw IllegalArgumentException if length <= 0" in {
+    assertThrows[IllegalArgumentException]{databuilder(0)}
   }
 
 }

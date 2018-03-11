@@ -10,5 +10,5 @@ trait Dao {
   def addTimeData(length: Int): Unit
   def getAllTimeData(): List[TimeData]
   def getBackTimeData(): List[TimeData]
-  def deleteTimeData(): Unit
+  def deleteTimeDataAndDisconnect(): Unit
 }

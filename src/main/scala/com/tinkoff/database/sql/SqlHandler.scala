@@ -81,6 +81,11 @@ class SqlHandler(cn: Connection, options: ApplicationOptions) {
     }
     backTimeDatas.toList
   }
+
+  def disconnect(): Unit = {
+    statement.execute(s"DROP TABLE timedata;")
+    cn.close()
+  }
 }
 
 object  SqlHandler {

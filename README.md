@@ -39,6 +39,7 @@ you should apply the options to argument of app in format
 
 
 ## Using REST API
-`REST API` supports two url
+`REST API` supports three url
 - `GET http://<host>:<port>/tinkoff/data.getData` - returns all data from the storage
 - `GET http://<host>:<port>/tinkoff/data.getBackData` - returns only data that insert by back time
+- `GET http://<host>:<port>/tinkoff/disconnect` - delets timedata table and closes connection to db

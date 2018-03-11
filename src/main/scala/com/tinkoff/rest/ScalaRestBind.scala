@@ -60,8 +60,4 @@ object ScalaRestBind {
     val app = new ScalaRestBind(applicationContext)
     app.launch()
   }
-
-//  def testLaunch(args: Array[String]): Unit = {
-//    new ScalaRestBind(AppContextForRest.testApplicationContext).launch(args)
-//  }
 }

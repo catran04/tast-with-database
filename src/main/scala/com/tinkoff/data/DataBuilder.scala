@@ -17,6 +17,7 @@ object DataBuilder {
     * @return List[TimeData]
     */
   def apply(length: Int): List[TimeData] = {
+    if(length <= 0) throw new IllegalArgumentException("length of data should be more than 0")
     var listData: mutable.MutableList[TimeData] = mutable.MutableList[TimeData]()
     for(i <- 0 until length) {
       if(i % 3 == 0) {

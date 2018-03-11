@@ -36,7 +36,11 @@ class RestRoute(appContext: ApplicationContext) extends Directives {
         } ~
         path("disconnect") {
           get {
-            complete("")
+            val response = dataBuilder.deleteTableAndDisconnect()
+            response.errorMessage match {
+              case None => processSuccess(response.toString)
+              case Some(msg) => processFailure(response.toString, response.responseCode)
+            }
           }
         }
     }

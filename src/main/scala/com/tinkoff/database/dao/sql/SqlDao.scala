@@ -5,7 +5,7 @@ import java.sql.Connection
 import com.tinkoff.database.dao.Dao
 import com.tinkoff.database.sql.{SqlConnector, SqlHandler}
 import com.tinkoff.model.TimeData
-import com.tinkoff.options.{ApplicationOptions, MysqlOptions}
+import com.tinkoff.options.ApplicationOptions
 
 /**
   * it is using for the handling of data from sql storage
@@ -30,8 +30,8 @@ class SqlDao(appOptions: ApplicationOptions, sqlConnector: SqlConnector) extends
     mySqlHandler.getBackTimeData()
   }
 
-  override def deleteTimeData(): Unit = {
-
+  override def deleteTimeDataAndDisconnect(): Unit = {
+    mySqlHandler.disconnect()
   }
 }
 

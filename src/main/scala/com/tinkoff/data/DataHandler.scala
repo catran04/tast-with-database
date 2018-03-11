@@ -59,6 +59,22 @@ class DataHandler(appContext: ApplicationContext) {
     }
   }
 
+  def deleteTableAndDisconnect(): Response = {
+    try {
+      storage.deleteTimeDataAndDisconnect()
+      logger.info("deleting table 'timedata'")
+      logger.info("closing connection to database")
+      Response()
+    } catch {
+      case sqlExc: SQLException =>
+        logger.error(sqlExc.printStackTrace())
+        respondFailure(StatusCodes.InternalServerError.intValue, "Internal server error. We are already doing our best. Please try again later.")
+      case exc: Exception =>
+        logger.error(exc.printStackTrace())
+        respondFailure(StatusCodes.InternalServerError.intValue, "internal server error. We are already doing our best. Please try again later.")
+    }
+  }
+
   private def respondFailure(responseCode: Int, errorMessage: String): Response = {
     Response(responseCode = responseCode, errorMessage = Some(errorMessage))
   }

@@ -29,7 +29,7 @@ class DaoMock(dataLength: Int) extends Dao {
     timeData.filter(elem => elem.backTime)
   }
 
-  override def deleteTimeData(): Unit = {
+  override def deleteTimeDataAndDisconnect(): Unit = {
     logger.info("deleting all data")
   }
 }
